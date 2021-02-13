@@ -1,0 +1,24 @@
+version: '3.4'
+
+services:
+  postgres:
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=P@ssword
+      - POSTGRES_DB=extraleicht
+    restart: always
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./.pgdata:/var/lib/postgresql/data
+
+  hasura:
+    environment:
+      - HASURA_GRAPHQL_DATABASE_URL=postgres://user:P%40ssword@postgres:5432/extraleicht
+      - HASURA_GRAPHQL_ENABLE_CONSOLE=true
+      - HASURA_GRAPHQL_ENABLED_LOG_TYPES=startup, http-log, webhook-log, websocket-log, query-log
+      # - HASURA_GRAPHQL_JWT_SECRET={"jwk_url":"http://identityapi/.well-known/openid-configuration/jwks","audience":"hasura","claims_format":"stringified_json","claims_namespace_path":"$$.hasura","type":"RS256"}
+      - HASURA_GRAPHQL_ADMIN_SECRET=suzexagumociyemaxogimujufeqino0
+    restart: always
+    ports:
+      - '8080:8080'
